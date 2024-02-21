@@ -1,15 +1,18 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class BasePage {
     public WebDriver driver;
+    public WebDriverWait wait;
 
-    protected BasePage(WebDriver driver) {
+    protected BasePage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofMillis(3000));
     }
 
     public void setup(){
@@ -45,8 +48,8 @@ public class BasePage {
         this.findElement(locator).click();
     }
 
-    protected String getText(By locator)throws InterruptedException {
-        Thread.sleep(1000);
+    protected String getText(By locator) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(locator));
         return this.findElement(locator).getText();
     }
 
